@@ -2,9 +2,9 @@ FROM ubuntu:14.04
 MAINTAINER Frederic Guillot <fred@kanboard.net>
 
 # Setup Apache/PHP
-RUN apt-get update && apt-get install -y apache2 php5 php5-gd php5-sqlite unzip wget && apt-get clean
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && a2enmod rewrite
-RUN sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+RUN apt-get update && apt-get install -y apache2 php5 php5-gd php5-sqlite unzip wget && apt-get clean \
+    && echo "ServerName localhost" >> /etc/apache2/apache2.conf && a2enmod rewrite \
+    && sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
 # Install Kanboard
 RUN cd /tmp \
