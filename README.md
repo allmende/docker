@@ -15,3 +15,5 @@ To fetch the images and run it:
 docker pull kanboard/kanboard
 docker run -d --name kanboard -p 80:80 -t kanboard/kanboard:stable
 ```
+
+More information on [Kanboard's website](http://kanboard.net/documentation/docker).

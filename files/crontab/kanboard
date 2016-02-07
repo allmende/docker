@@ -1,0 +1,1 @@
+1 0 * * * cd /var/www/kanboard && ./kanboard notification:overdue-tasks >/dev/null 2>&1
