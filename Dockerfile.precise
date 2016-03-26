@@ -1,0 +1,31 @@
+FROM ubuntu:12.04
+
+RUN apt-get update && \
+    apt-get install -y apache2 php5 php5-sqlite php5-mysql php5-pgsql php5-gd curl unzip && \
+    apt-get clean && \
+    echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/sites-enabled/000-default && \
+    a2enmod rewrite && \
+    curl -sS https://getcomposer.org/installer | php -- --filename=/usr/local/bin/composer
+
+RUN cd /var/tmp \
+    && rm -rf /var/www \
+    && curl -sLO https://github.com/fguillot/kanboard/archive/master.zip \
+    && unzip -qq master.zip \
+    && rm -f *.zip \
+    && mv kanboard-master /var/www \
+    && cd /var/www && composer --prefer-dist --no-dev --optimize-autoloader --quiet install \
+    && chown -R www-data:www-data /var/www/data
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+EXPOSE 80
+
+VOLUME /var/www/data
+VOLUME /var/www/plugins
+
+CMD /usr/sbin/apache2ctl -D FOREGROUND

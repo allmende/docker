@@ -1,5 +1,4 @@
 FROM gliderlabs/alpine:latest
-MAINTAINER Frederic Guillot <fred@kanboard.net>
 
 RUN apk-install nginx bash ca-certificates s6 \
     php-fpm php-json php-zlib php-xml php-dom php-ctype php-opcache php-zip \
