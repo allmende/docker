@@ -1,0 +1,29 @@
+FROM centos:7
+
+RUN yum update -y && \
+    yum install -y php php-mbstring php-pdo php-gd unzip curl && \
+    sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/httpd/conf/httpd.conf && \
+    echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf && \
+    curl -sS https://getcomposer.org/installer | php -- --filename=/usr/local/bin/composer
+
+RUN cd /var/tmp \
+    && rm -rf /var/www/html \
+    && curl -sLO https://github.com/fguillot/kanboard/archive/master.zip \
+    && unzip -qq master.zip \
+    && rm -f *.zip \
+    && mv kanboard-master /var/www/html \
+    && cd /var/www/html && composer --ignore-platform-reqs --prefer-dist --no-dev --optimize-autoloader --quiet install \
+    && chown -R apache:apache /var/www/html/data
+
+ENV APACHE_RUN_USER apache
+ENV APACHE_RUN_GROUP apache
+ENV APACHE_LOG_DIR /var/log/httpd
+ENV APACHE_LOCK_DIR /var/lock/httpd
+ENV APACHE_PID_FILE /var/run/httpd.pid
+
+EXPOSE 80
+
+VOLUME /var/www/html/data
+VOLUME /var/www/html/plugins
+
+CMD /usr/sbin/httpd -D FOREGROUND
