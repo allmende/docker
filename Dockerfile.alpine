@@ -3,10 +3,10 @@ FROM gliderlabs/alpine:latest
 RUN apk-install nginx bash ca-certificates s6 \
     php-fpm php-json php-zlib php-xml php-dom php-ctype php-opcache php-zip \
     php-pdo php-pdo_mysql php-pdo_sqlite php-pdo_pgsql php-ldap \
-    php-gd php-mcrypt php-openssl
+    php-gd php-mcrypt php-openssl curl
 
 RUN cd /var/www \
-    && wget https://kanboard.net/kanboard-latest.zip \
+    && curl -sLO https://kanboard.net/kanboard-latest.zip \
     && unzip -qq kanboard-latest.zip \
     && rm -f *.zip \
     && chown -R nginx:nginx /var/www/kanboard \
