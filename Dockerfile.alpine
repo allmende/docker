@@ -6,7 +6,7 @@ RUN apk-install nginx bash ca-certificates s6 \
     php-gd php-mcrypt php-openssl
 
 RUN cd /var/www \
-    && wget http://kanboard.net/kanboard-latest.zip \
+    && wget https://kanboard.net/kanboard-latest.zip \
     && unzip -qq kanboard-latest.zip \
     && rm -f *.zip \
     && chown -R nginx:nginx /var/www/kanboard \
