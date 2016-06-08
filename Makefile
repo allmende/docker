@@ -16,6 +16,9 @@ trusty-dev:
 xenial-dev:
 	@ docker build -t kanboard/kanboard:xenial-dev -f Dockerfile.xenial .
 
+xenial-postgres-beanstalk-dev:
+	@ docker build -t kanboard/kanboard:xenial-postgres-beanstalk-dev -f Dockerfile-postgres-beanstalk.xenial .
+
 push:
 	@ docker push kanboard/kanboard
 

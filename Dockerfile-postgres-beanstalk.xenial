@@ -1,0 +1,36 @@
+FROM ubuntu:16.04
+
+RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor
+
+RUN apt update -qq && \
+    apt install -y apache2 supervisor libapache2-mod-php7.0 php7.0-cli php7.0-mbstring php7.0-sqlite3 \
+    php7.0-opcache php7.0-json php7.0-pgsql php7.0-ldap php7.0-gd php7.0-zip curl unzip && \
+    apt clean && \
+    echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf && \
+    a2enmod rewrite && \
+    curl -sS https://getcomposer.org/installer | php -- --filename=/usr/local/bin/composer
+
+COPY files/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN cd /var/www \
+    && rm -rf /var/www/html \
+    && curl -sLO https://github.com/fguillot/kanboard/archive/master.zip \
+    && unzip -qq master.zip \
+    && rm -f *.zip \
+    && mv kanboard-master html \
+    && cd /var/www/html && composer --prefer-dist --no-dev --optimize-autoloader --quiet install
+
+RUN cd /var/www/html && \
+    ./kanboard plugin:install https://github.com/kanboard/plugin-beanstalk/releases/download/v1.0.0/Beanstalk-1.0.0.zip
+
+RUN chown -R www-data:www-data /var/www/html/data && chown -R www-data:www-data /var/www/html/plugins
+
+COPY files/kanboard/postgres_beanstalk.php /var/www/html/config.php
+
+EXPOSE 80
+
+VOLUME /var/www/html/data
+VOLUME /var/www/html/plugins
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

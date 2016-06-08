@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.5
+    restart: always
+    environment:
+        POSTGRES_USER: kanboard
+        POSTGRES_PASSWORD: kanboard
+        POSTGRES_DB: kanboard
+  beanstalk:
+    image: schickling/beanstalkd
+    ports:
+      - "11300:11300"
+  kanboard:
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres-beanstalk.xenial
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+      - beanstalk
