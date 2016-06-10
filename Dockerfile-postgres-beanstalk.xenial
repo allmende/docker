@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor
 
 RUN apt update -qq && \
-    apt install -y apache2 supervisor libapache2-mod-php7.0 php7.0-cli php7.0-mbstring php7.0-sqlite3 \
+    apt install -y apache2 supervisor cron libapache2-mod-php7.0 php7.0-cli php7.0-mbstring php7.0-sqlite3 \
     php7.0-opcache php7.0-json php7.0-pgsql php7.0-ldap php7.0-gd php7.0-zip curl unzip && \
     apt clean && \
     echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
@@ -27,6 +27,7 @@ RUN cd /var/www/html && \
 RUN chown -R www-data:www-data /var/www/html/data && chown -R www-data:www-data /var/www/html/plugins
 
 COPY files/kanboard/postgres_beanstalk.php /var/www/html/config.php
+COPY files/crontab/cronjob.debian /etc/cron.d/kanboard
 
 EXPOSE 80
 

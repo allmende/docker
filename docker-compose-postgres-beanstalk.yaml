@@ -9,12 +9,14 @@ services:
         POSTGRES_DB: kanboard
   beanstalk:
     image: schickling/beanstalkd
+    restart: always
     ports:
       - "11300:11300"
-  kanboard:
+  app:
     build:
       context: .
       dockerfile: Dockerfile-postgres-beanstalk.xenial
+    restart: always
     ports:
       - "8000:80"
     depends_on:
