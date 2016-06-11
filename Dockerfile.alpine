@@ -1,10 +1,12 @@
 FROM alpine:3.4
 
+RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
 RUN apk update && \
     apk add nginx bash ca-certificates s6 curl \
-    php5-fpm php5-json php5-zlib php5-xml php5-dom php5-ctype php5-opcache php5-zip \
-    php5-pdo php5-pdo_mysql php5-pdo_sqlite php5-pdo_pgsql php5-ldap \
-    php5-gd php5-mcrypt php5-openssl php5-phar && \
+    php7-fpm php7-json php7-zlib php7-xml php7-dom php7-ctype php7-opcache php7-zip \
+    php7-pdo php7-pdo_mysql php7-pdo_sqlite php7-pdo_pgsql php7-ldap php7-mbstring php7-session \
+    php7-gd php7-mcrypt php7-openssl php7-phar && \
     rm -rf /var/cache/apk/*
 
 RUN cd /var/www \
@@ -15,8 +17,8 @@ RUN cd /var/www \
     && chown -R nginx:nginx /var/lib/nginx
 
 COPY files/services.d /etc/services.d
-COPY files/php/conf.d/local.ini /etc/php5/conf.d/
-COPY files/php/php-fpm.conf /etc/php5/
+COPY files/php/conf.d/local.ini /etc/php7/conf.d/
+COPY files/php/php-fpm.conf /etc/php7/
 COPY files/nginx/nginx.conf /etc/nginx/
 COPY files/kanboard/config.php /var/www/kanboard/
 COPY files/kanboard/config.php /var/www/kanboard/
