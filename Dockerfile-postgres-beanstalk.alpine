@@ -1,37 +1,20 @@
-FROM alpine:3.4
-
-RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-
-RUN apk update && \
-    apk add nginx bash ca-certificates s6 curl \
-    php7-fpm php7-json php7-zlib php7-xml php7-dom php7-ctype php7-opcache php7-zip \
-    php7-pdo php7-pdo_mysql php7-pdo_sqlite php7-pdo_pgsql php7-ldap php7-mbstring php7-session \
-    php7-gd php7-mcrypt php7-openssl php7-phar && \
-    rm -rf /var/cache/apk/* && \
-    ln -s /usr/bin/php7 /usr/bin/php
+FROM fguillot/alpine-nginx-php7
 
 RUN cd /var/www \
     && curl -sLO https://kanboard.net/kanboard-latest.zip \
     && unzip -qq kanboard-latest.zip \
     && rm -f *.zip \
-    && chown -R nginx:nginx /var/www/kanboard \
-    && chown -R nginx:nginx /var/lib/nginx
+    && rm -rf app \
+    && mv /var/www/kanboard /var/www/app \
+    && chown -R nginx:nginx /var/www/app/data \
+    && chown -R nginx:nginx /var/www/app/plugins
 
-COPY files/services.d /etc/services.d
-COPY files/php/conf.d/local.ini /etc/php7/conf.d/
-COPY files/php/php-fpm.conf /etc/php7/
-COPY files/nginx/nginx.conf /etc/nginx/
-COPY files/crontab/cronjob.alpine /var/spool/cron/crontabs/nginx
-
-RUN cd /var/www/kanboard && \
+RUN cd /var/www/app && \
     ./kanboard plugin:install https://github.com/kanboard/plugin-beanstalk/releases/download/v1.0.0/Beanstalk-1.0.0.zip
 
-COPY files/kanboard/postgres_beanstalk.php /var/www/kanboard/config.php
+COPY files/kanboard/postgres_beanstalk.php /var/www/app/config.php
+COPY files/crontab/cronjob.alpine /var/spool/cron/crontabs/nginx
+COPY files/services.d/cron /etc/services.d/cron
 
-EXPOSE 80
-
-VOLUME /var/www/kanboard/data
-VOLUME /var/www/kanboard/plugins
-
-ENTRYPOINT ["/bin/s6-svscan", "/etc/services.d"]
-CMD []
+VOLUME /var/www/app/data
+VOLUME /var/www/app/plugins
