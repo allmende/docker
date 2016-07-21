@@ -9,12 +9,13 @@ RUN yum update -y && \
 
 RUN cd /var/tmp \
     && rm -rf /var/www/html \
-    && curl -sLO https://github.com/fguillot/kanboard/archive/master.zip \
+    && curl -sLO https://github.com/kanboard/kanboard/archive/master.zip \
     && unzip -qq master.zip \
     && rm -f *.zip \
     && mv kanboard-master /var/www/html \
     && cd /var/www/html && composer --ignore-platform-reqs --prefer-dist --no-dev --optimize-autoloader --quiet install \
-    && chown -R apache:apache /var/www/html/data
+    && chown -R apache:apache /var/www/html/data \
+    && chown -R apache:apache /var/www/html/plugins
 
 ENV APACHE_RUN_USER apache
 ENV APACHE_RUN_GROUP apache

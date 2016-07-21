@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
 
 RUN cd /var/www \
     && rm -rf /var/www/html \
-    && curl -sLO https://github.com/fguillot/kanboard/archive/master.zip \
+    && curl -sLO https://github.com/kanboard/kanboard/archive/master.zip \
     && unzip -qq master.zip \
     && rm -f *.zip \
     && mv kanboard-master html \
