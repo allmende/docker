@@ -15,6 +15,7 @@ RUN cd /var/www/app && \
 COPY files/kanboard/postgres_beanstalk.php /var/www/app/config.php
 COPY files/crontab/cronjob.alpine /var/spool/cron/crontabs/nginx
 COPY files/services.d/cron /etc/services.d/cron
+COPY files/services.d/worker /etc/services.d/worker
 
 VOLUME /var/www/app/data
 VOLUME /var/www/app/plugins

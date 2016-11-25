@@ -19,6 +19,9 @@ xenial-dev:
 xenial-postgres-beanstalk-dev:
 	@ docker build -t kanboard/kanboard:xenial-postgres-beanstalk-dev -f Dockerfile-postgres-beanstalk.xenial .
 
+alpine-postgres-beanstalk-dev:
+	@ docker build -t kanboard/kanboard:alpine-postgres-beanstalk-dev -f Dockerfile-postgres-beanstalk.alpine .
+
 push:
 	@ docker push kanboard/kanboard
 
