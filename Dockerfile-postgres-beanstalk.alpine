@@ -1,16 +1,16 @@
 FROM fguillot/alpine-nginx-php7
 
-RUN cd /var/www \
-    && curl -sLO https://kanboard.net/kanboard-latest.zip \
-    && unzip -qq kanboard-latest.zip \
-    && rm -f *.zip \
-    && rm -rf app \
-    && mv /var/www/kanboard /var/www/app \
-    && chown -R nginx:nginx /var/www/app/data \
-    && chown -R nginx:nginx /var/www/app/plugins
+ENV KANBOARD_VERSION 1.0.46
+ENV KANBOARD_TARBALL https://github.com/kanboard/kanboard/archive/v${KANBOARD_VERSION}.tar.gz
 
-RUN cd /var/www/app && \
-    ./kanboard plugin:install https://github.com/kanboard/plugin-beanstalk/releases/download/v1.0.0/Beanstalk-1.0.0.zip
+RUN mkdir -p /var/www/app \
+  && curl -sLo - \
+  ${KANBOARD_TARBALL} | tar -xzf - --strip 1 -C /var/www/app
+
+WORKDIR /var/www/app
+RUN composer --prefer-dist --no-dev --optimize-autoloader install && \
+    chown -R nginx:nginx /var/www/app && \
+    ./cli plugin:install https://github.com/kanboard/plugin-beanstalk/releases/download/v1.0.0/Beanstalk-1.0.0.zip
 
 COPY files/kanboard/postgres_beanstalk.php /var/www/app/config.php
 COPY files/crontab/cronjob.alpine /var/spool/cron/crontabs/nginx
