@@ -1,0 +1,23 @@
+FROM fguillot/alpine-nginx-php7
+
+RUN apk update && \
+  apk add php7-bcmath && \
+  rm -rf /var/cache/apk/*
+
+ENV KANBOARD_VERSION 1.0.46
+ENV KANBOARD_TARBALL https://github.com/kanboard/kanboard/archive/v${KANBOARD_VERSION}.tar.gz
+
+RUN mkdir -p /var/www/app \
+  && curl -sLo - \
+  ${KANBOARD_TARBALL} | tar -xzf - --strip 1 -C /var/www/app
+
+WORKDIR /var/www/app
+RUN composer --prefer-dist --no-dev --optimize-autoloader install \
+  && chown -R nginx:nginx /var/www/app
+
+COPY files/crontab/cronjob.alpine /var/spool/cron/crontabs/nginx
+COPY files/services.d/cron /etc/services.d/cron
+COPY files/services.d/worker /etc/services.d/worker
+
+VOLUME /var/www/app/data
+VOLUME /var/www/app/plugins

@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  database:
+    image: postgres:9.6-alpine
+    restart: always
+    environment:
+        POSTGRES_USER: kanboard
+        POSTGRES_PASSWORD: kanboard
+        POSTGRES_DB: kanboard
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+  rabbitmq:
+    hostname: rabbitmq
+    image: rabbitmq:3.6-alpine
+    restart: always
+    expose:
+      - "5672"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres-rabbitmq.alpine
+    restart: always
+    volumes:
+      - ./data:/var/www/app/data
+      - ./plugins:/var/www/app/plugins
+      - ./files/kanboard/postgres-rabbitmq.php:/var/www/app/config.php
+    ports:
+      - "80"
+    depends_on:
+      - database
+      - rabbitmq
