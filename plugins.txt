@@ -1,5 +1,6 @@
 https://github.com/kanboard/plugin-rabbitmq/releases/download/v1.0.0/RabbitMQ-1.0.0.zip
-https://github.com/kanboard/plugin-registration/releases/download/v1.0.6/Registration-1.0.6.ziphttps://github.com/kanboard/plugin-subtask-forecast/releases/download/v1.0.3/SubtaskForecast-1.0.3.zip
+https://github.com/kanboard/plugin-registration/releases/download/v1.0.6/Registration-1.0.6.zip
+https://github.com/kanboard/plugin-subtask-forecast/releases/download/v1.0.3/SubtaskForecast-1.0.3.zip
 https://github.com/kanboard/plugin-task-board-date/releases/download/v1.0.2/TaskBoardDate-1.0.2.zip
 https://github.com/kanboard/plugin-budget/releases/download/v1.0.9/Budget-1.0.9.zip
 https://github.com/kanboard/plugin-gantt/releases/download/v1.0.2/Gantt-1.0.2.zip
