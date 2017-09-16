@@ -1,0 +1,12 @@
+https://github.com/kanboard/plugin-rabbitmq/releases/download/v1.0.0/RabbitMQ-1.0.0.zip
+https://github.com/kanboard/plugin-registration/releases/download/v1.0.6/Registration-1.0.6.ziphttps://github.com/kanboard/plugin-subtask-forecast/releases/download/v1.0.3/SubtaskForecast-1.0.3.zip
+https://github.com/kanboard/plugin-task-board-date/releases/download/v1.0.2/TaskBoardDate-1.0.2.zip
+https://github.com/kanboard/plugin-budget/releases/download/v1.0.9/Budget-1.0.9.zip
+https://github.com/kanboard/plugin-gantt/releases/download/v1.0.2/Gantt-1.0.2.zip
+https://github.com/oliviermaridat/kanboard-milestone-plugin/releases/download/1.1.1/Milestone-1.1.1.zip
+https://github.com/xavividal/kanboard-plugin-relationgraph/releases/download/0.1.3/0.1.3.zip
+https://github.com/kanboard/plugin-calendar/releases/download/v1.0.1/Calendar-1.0.1.zip
+https://github.com/eSkiSo/Subtaskdate/archive/v1.0.1.zip
+https://github.com/stinnux/kanboard-Timetrackingeditor/releases/download/1.0.16/Timetrackingeditor-1.0.16.zip
+https://github.com/kanboard/plugin-timetable/releases/download/v1.0.9/Timetable-1.0.9.zip
+
