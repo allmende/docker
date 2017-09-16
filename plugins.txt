@@ -7,6 +7,4 @@ https://github.com/oliviermaridat/kanboard-milestone-plugin/releases/download/1.
 https://github.com/xavividal/kanboard-plugin-relationgraph/releases/download/0.1.3/0.1.3.zip
 https://github.com/kanboard/plugin-calendar/releases/download/v1.0.1/Calendar-1.0.1.zip
 https://github.com/eSkiSo/Subtaskdate/archive/v1.0.1.zip
-https://github.com/stinnux/kanboard-Timetrackingeditor/releases/download/1.0.16/Timetrackingeditor-1.0.16.zip
-https://github.com/kanboard/plugin-timetable/releases/download/v1.0.9/Timetable-1.0.9.zip
 
